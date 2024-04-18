@@ -21,6 +21,7 @@ M.fetch = function()
     headers = {
       ["User-agent"] = "chrome", -- fake user agent, see #25
     },
+    follow_redirects = true,
     callback = function(response)
       if not DATA_DIR:exists() then
         log.debug("Docs directory not found, creating a new directory")
