@@ -17,23 +17,23 @@ local devdocs_cdn_url = "https://documents.devdocs.io"
 M.fetch = function()
   log.info("Fetching DevDocs registery...")
 
-  curl.get(devdocs_site_url .. "/docs.json", {
-    headers = {
-      ["User-agent"] = "chrome", -- fake user agent, see #25
-    },
-    dump = "/home/gabe/tmp/",
-    callback = function(response)
-      if not DATA_DIR:exists() then
-        log.debug("Docs directory not found, creating a new directory")
-        DATA_DIR:mkdir()
-      end
-      fs.write_registery(response.body)
-      log.info("DevDocs registery has been written to the disk")
-    end,
-    on_error = function(error)
-      log.error("Error when fetching registery, exit code: " .. error.exit)
-    end,
-  })
+  os.execute("curl -L -o " .. REGISTERY_PATH .. " " .. devdocs_site_url .. "/docs.json")
+  -- curl.get(devdocs_site_url .. "/docs.json", {
+  --   headers = {
+  --     ["User-agent"] = "chrome", -- fake user agent, see #25
+  --   },
+  --   callback = function(response)
+  --     if not DATA_DIR:exists() then
+  --       log.debug("Docs directory not found, creating a new directory")
+  --       DATA_DIR:mkdir()
+  --     end
+  --     fs.write_registery(response.body)
+  --     log.info("DevDocs registery has been written to the disk")
+  --   end,
+  --   on_error = function(error)
+  --     log.error("Error when fetching registery, exit code: " .. error.exit)
+  --   end,
+  -- })
 end
 
 ---@param entry RegisteryEntry
